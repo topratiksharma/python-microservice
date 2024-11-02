@@ -40,7 +40,20 @@ def login():
     else:
         return "invalid credentials", 401
 
-
+@server.route("/validate", methods=["POST"])
+def validate():
+    token = request.headers.get("Authorization")
+    if not token:
+        return "missing token", 401
+    econcoded_jwt = token.split(" ")[1]
+    
+    try:
+        jwt.decode(econcoded_jwt, os.environ.get("JWT_SECRET"), algorithms=["HS256"])
+        return econcoded_jwt, 200
+    except jwt.ExpiredSignatureError:
+        return "expired", 401
+    except jwt.InvalidTokenError:
+        return "invalid", 401
 
 def createJWT(username, secret, authz):
     return jwt.encode(
@@ -55,4 +68,5 @@ def createJWT(username, secret, authz):
     )
 
 if __name__ == "__main__":
-    print(__name__)
+    server.run(host="0.0.0.0", port=5000)
+    
