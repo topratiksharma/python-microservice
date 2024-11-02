@@ -1,0 +1,7 @@
+docker build . 
+
+docker tag <tag-name-after-build> topratiksharma/auth:latest
+
+docker image ls 
+docker loging --> if required
+docker push topratiksharma/auth:latest 
