@@ -1,3 +1,9 @@
+start the deployment
 kubectl apply -f ./
 
+ramp donw the deployment
 kubectl scale deployment --replicas=0 gateway
+
+
+Spin up tunnel
+minikube tunnel
